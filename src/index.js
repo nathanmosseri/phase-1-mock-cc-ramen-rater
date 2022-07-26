@@ -9,7 +9,22 @@ const ramenDetailImg = document.getElementsByClassName('detail-image')[0]
 const ramenForm = document.getElementById('new-ramen')
 const editForm = document.getElementById('edit-ramen')
 
+const addRamenToMenu = (ramen) => {
+  const ramenImg = document.createElement('img')
+  ramenImg.src = ramen.image
+  
+  ramenImg.addEventListener('click', () => {
+      ramenName.textContent = ramen.name
+      ramenRestaurant.textContent = ramen.restaurant
+      ramenComment.textContent = ramen.comment
+      ramenRating.textContent = ramen.rating
+      ramenDetailImg.src = ramen.image
+      
+      
+    })
+  ramenMenu.append(ramenImg)
 
+}
 
 
 const getRamen = () => {
@@ -17,20 +32,9 @@ const getRamen = () => {
     return response.json()
   }) .then(ramens => {
     ramens.forEach((ramen) => {
-        const ramenImg = document.createElement('img')
-        ramenImg.src = ramen.image
-        ramenImg.addEventListener('click', () => {
-        ramenName.textContent = ramen.name
-        ramenRestaurant.textContent = ramen.restaurant
-        ramenComment.textContent = ramen.comment
-        ramenRating.textContent = ramen.rating
-        ramenDetailImg.src = ramen.image
-
-
-    })
+      addRamenToMenu(ramen)
       
 
-      ramenMenu.append(ramenImg)
     })
   })
 }
@@ -58,6 +62,7 @@ ramenForm.addEventListener('submit', (e) => {
     rating: e.target.rating.value,
     comment: e.target['new-comment'].value
   }
-  postRamen(newRamenObj)
+  postRamen(newRamenObj);
+  addRamenToMenu(newRamenObj)
   e.target.reset()
 })
